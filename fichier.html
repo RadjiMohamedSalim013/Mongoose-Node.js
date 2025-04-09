@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📘  Mongoose & Node.js</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e74c3c;
+        }
+        .env {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .note {
+            background-color: #fffde7;
+            padding: 10px 15px;
+            border-left: 4px solid #ffd600;
+            margin: 15px 0;
+        }
+        .emoji {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1> Mongoose & Node.js</h1>
+
+    <h2><span class="emoji">🔹</span> 1. Connexion à MongoDB avec Mongoose</h2>
+    <pre><code>mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});</code></pre>
+
+    <p>L'URI est stocké dans <code>.env</code> :</p>
+    <div class="env"><code>MONGO_URI="your-mongodb-uri"</code></div>
+
+    <h2><span class="emoji">🔹</span> 2. Définir le modèle Person</h2>
+    <pre><code>const personSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  age: Number,
+  favoriteFoods: [String]
+});</code></pre>
+
+    <h2><span class="emoji">🔹</span> 3. Créer et sauvegarder une personne</h2>
+    <pre><code>const person = new Person({
+  name: 'John',
+  age: 30,
+  favoriteFoods: ['pizza', 'tacos']
+});
+
+await person.save();</code></pre>
+
+    <h2><span class="emoji">🔹</span> 4. Créer plusieurs personnes</h2>
+    <pre><code>const arrayOfPeople = [
+  { name: 'Mary', age: 25, favoriteFoods: ['salad'] },
+  { name: 'Paul', age: 28, favoriteFoods: ['steak'] },
+  { name: 'John', age: 22, favoriteFoods: ['sushi'] }
+];
+
+await Person.create(arrayOfPeople);</code></pre>
+
+    <h2><span class="emoji">🔹</span> 5. Trouver toutes les personnes avec <code>.find()</code></h2>
+    <pre><code>const people = await Person.find({ name: 'John' });</code></pre>
+
+    <h2><span class="emoji">🔹</span> 6. Trouver une personne avec <code>.findOne()</code></h2>
+    <pre><code>const person = await Person.findOne({ favoriteFoods: 'tacos' });</code></pre>
+
+    <h2><span class="emoji">🔹</span> 7. Trouver une personne par son <code>_id</code></h2>
+    <pre><code>const person = await Person.findById(personId);</code></pre>
+
+    <h2><span class="emoji">🔹</span> 8. Modifier puis sauvegarder une personne</h2>
+    <pre><code>const person = await Person.findById(personId);
+person.favoriteFoods.push('hamburger');
+await person.save();</code></pre>
+
+    <h2><span class="emoji">🔹</span> 9. Mettre à jour avec <code>.findOneAndUpdate()</code></h2>
+    <pre><code>const updatedPerson = await Person.findOneAndUpdate(
+  { name: personName },
+  { age: 20 },
+  { new: true }
+);</code></pre>
+
+    <h2><span class="emoji">🔹</span> 10. Supprimer une personne par <code>_id</code></h2>
+    <pre><code>const removed = await Person.findByIdAndRemove(personId);</code></pre>
+
+    <h2><span class="emoji">🔹</span> 11. Supprimer plusieurs personnes</h2>
+    <pre><code>const result = await Person.deleteMany({ name: 'Mary' });</code></pre>
+
+    <h2><span class="emoji">🔹</span> 12. Requête enchaînée avec filtres</h2>
+    <pre><code>const people = await Person.find({ favoriteFoods: 'burritos' })
+  .sort({ name: 1 })
+  .limit(2)
+  .select('name favoriteFoods')
+  .exec();</code></pre>
+
+    <div class="note">
+        <strong>💡 Note :</strong> Pour utiliser <code>await</code>, assurez-vous d'être dans une fonction <code>async</code>.
+    </div>
+
+    
+</body>
+</html>

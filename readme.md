@@ -93,4 +93,4 @@ Filtrez, triez, limitez et sélectionnez certains champs à l'aide de méthodes 
 
 ## 📄 Résumé PDF
 
-[📥 Télécharger le résumé du projet Mongoose & Node.js (PDF)](./docs/Mongoose&Node.pdf)
+[📥 Télécharger le résumé du projet Mongoose & Node.js (PDF)](./Docs/Mongoose&Node.pdf)
